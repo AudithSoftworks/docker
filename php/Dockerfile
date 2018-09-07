@@ -151,7 +151,7 @@ RUN set -ex \
     done
 
 ENV NPM_CONFIG_LOGLEVEL info
-ENV NODE_VERSION 8.11.2
+ENV NODE_VERSION 8.11.4
 ENV NPM_VERSION 6
 
 RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
