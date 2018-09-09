@@ -34,6 +34,7 @@ RUN apt-get update -y \
         mysql-client \
         nano \
         openjdk-8-jre \
+        rsyslog \
         sudo \
         telnet \
         unzip \
@@ -130,7 +131,8 @@ RUN git clone https://github.com/phpredis/phpredis.git /tmp/phpredis \
     && make install \
     && echo "extension=redis.so" | tee /usr/local/etc/php/conf.d/redis.ini
 
-# List of PHP extensions installed
+# Some checks
+RUN service rsyslog start && service cron start && service --status-all
 RUN php -m
 
 # Install Node

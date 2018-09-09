@@ -20,8 +20,10 @@ RUN apt-get install -y \
         libxslt1-dev \
         locales \
         locales-all \
+        rsyslog \
         telnet \
         wget
+
 RUN docker-php-ext-install \
         bcmath \
         calendar \
@@ -100,6 +102,8 @@ RUN git clone https://github.com/phpredis/phpredis.git /tmp/phpredis \
     && rm -rf /tmp/phpredis \
     && echo "extension=redis.so" | tee /usr/local/etc/php/conf.d/redis.ini
 
+# Some checks
+RUN service rsyslog start && service --status-all
 RUN php -m
 
 # Timezone
