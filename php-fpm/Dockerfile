@@ -1,4 +1,4 @@
-FROM php:7-fpm
+FROM php:7.3-fpm
 MAINTAINER Shahriyar Imanov <shehi@imanov.me>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -18,6 +18,7 @@ RUN apt-get install -y \
         libssl-dev \
         libxml2-dev \
         libxslt1-dev \
+        libzip-dev \
         locales \
         locales-all \
         rsyslog \
@@ -82,7 +83,7 @@ RUN pecl install -of mongodb \
     && echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/mongo.ini
 
 # Install PECL php-xdebug
-RUN pecl install -of xdebug-2.6.0beta1 \
+RUN pecl install -of xdebug-2.7.0beta1 \
     && rm -rf /tmp/pear \
     && echo "zend_extension=xdebug.so" | tee /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.max_nesting_level = 1000" | tee -a /usr/local/etc/php/conf.d/xdebug.ini \
@@ -94,7 +95,7 @@ RUN pecl install -of xdebug-2.6.0beta1 \
 # Install php-redis extension through Git
 RUN git clone https://github.com/phpredis/phpredis.git /tmp/phpredis \
     && cd /tmp/phpredis \
-    && git checkout 3.1.4 \
+    && git checkout 4.2.0 \
     && phpize \
     && ./configure \
     && make \

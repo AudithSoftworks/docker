@@ -1,4 +1,4 @@
-FROM php:7
+FROM php:7.3
 LABEL maintainer="Shahriyar Imanov <shehi@imanov.me>"
 
 WORKDIR /var/www
@@ -29,6 +29,7 @@ RUN apt-get update -y \
         libssl-dev \
         libxml2-dev \
         libxslt1-dev \
+        libzip-dev \
         locales \
         locales-all \
         mysql-client \
@@ -106,7 +107,7 @@ RUN pecl install -of mongodb \
     && echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/mongo.ini
 
 # Install PECL php-xdebug
-RUN pecl install -of xdebug-2.6.0beta1 \
+RUN pecl install -of xdebug-2.7.0beta1 \
     && rm -rf /tmp/pear \
     && echo "zend_extension=xdebug.so" | tee /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.max_nesting_level = 1000" | tee -a /usr/local/etc/php/conf.d/xdebug.ini \
@@ -124,7 +125,7 @@ RUN echo "date.timezone = UTC" | tee /usr/local/etc/php/conf.d/date.ini
 # Install php-redis extension through Git
 RUN git clone https://github.com/phpredis/phpredis.git /tmp/phpredis \
     && cd /tmp/phpredis \
-    && git checkout 3.1.4 \
+    && git checkout 4.2.0 \
     && phpize \
     && ./configure \
     && make \
@@ -144,16 +145,19 @@ RUN set -ex \
         DD8F2338BAE7501E3DD5AC78C273792F7D83545D \
         C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
         B9AE9905FFD7803F25714661B63B535A4C206CA9 \
-        56730D5401028683275BD23C23EFEFE93C4CFFFE \
         77984A986EBC2AA786BC0F66B01FBB92821C587A \
+        8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600 \
+        4ED778F539E3634C779C87C6D7062848A1AB005C \
+        A48C2BEE680E841632CD4E44F07496B3EB3C1762 \
+        B9E2F5981AA6E0CD28160D9FF13993A75599653C \
     ; do \
-        gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$key" || \
-        gpg --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys "$key" || \
-        gpg --keyserver hkp://pgp.mit.edu:80 --recv-keys "$key"; \
+        gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$key" || \
+        gpg --batch --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys "$key" || \
+        gpg --batch --keyserver hkp://pgp.mit.edu:80 --recv-keys "$key" ; \
     done
 
 ENV NPM_CONFIG_LOGLEVEL info
-ENV NODE_VERSION 8.11.4
+ENV NODE_VERSION 10.15.0
 ENV NPM_VERSION 6
 
 RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
