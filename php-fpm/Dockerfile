@@ -1,4 +1,4 @@
-FROM php:7.3-fpm
+FROM php:7.2-fpm
 MAINTAINER Shahriyar Imanov <shehi@imanov.me>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -83,7 +83,7 @@ RUN pecl install -of mongodb \
     && echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/mongo.ini
 
 # Install PECL php-xdebug
-RUN pecl install -of xdebug-2.7.0beta1 \
+RUN pecl install -of xdebug \
     && rm -rf /tmp/pear \
     && echo "zend_extension=xdebug.so" | tee /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.max_nesting_level = 1000" | tee -a /usr/local/etc/php/conf.d/xdebug.ini \
