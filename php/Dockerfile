@@ -1,11 +1,10 @@
-FROM php:7.2
+FROM php:7.3-fpm
 LABEL maintainer="Shahriyar Imanov <shehi@imanov.me>"
 
 WORKDIR /var/www
 
 ENV DEBIAN_FRONTEND noninteractive
 
-# Install dependencies
 RUN apt-get update -y \
     && apt-get install -y apt-utils \
     && apt-get upgrade -y \
@@ -40,6 +39,12 @@ RUN apt-get update -y \
         telnet \
         unzip \
         wget
+
+# Locale
+RUN locale-gen en_US.UTF-8 && locale-gen az_AZ.UTF-8 && locale-gen tr_TR.UTF-8 && locale-gen de_DE.UTF-8 && dpkg-reconfigure locales
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
 # Install PHP extensions
 RUN docker-php-ext-install \
@@ -92,12 +97,6 @@ RUN pecl install -of mcrypt memcached \
 #    && make install \
 #    && docker-php-ext-enable v8js
 
-# Locale
-RUN locale-gen en_US.UTF-8 && locale-gen az_AZ.UTF-8 && locale-gen tr_TR.UTF-8 && locale-gen de_DE.UTF-8 && dpkg-reconfigure locales
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
@@ -125,7 +124,7 @@ RUN echo "date.timezone = UTC" | tee /usr/local/etc/php/conf.d/date.ini
 # Install php-redis extension through Git
 RUN git clone https://github.com/phpredis/phpredis.git /tmp/phpredis \
     && cd /tmp/phpredis \
-    && git checkout 4.2.0 \
+    && git checkout 4.3.0 \
     && phpize \
     && ./configure \
     && make \
@@ -157,9 +156,8 @@ RUN set -ex \
     done
 
 ENV NPM_CONFIG_LOGLEVEL info
-ENV NODE_VERSION 10.15.0
+ENV NODE_VERSION 10.15.3
 ENV NPM_VERSION 6
-
 RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
     && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
     && gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc \

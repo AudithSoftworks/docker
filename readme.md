@@ -7,5 +7,4 @@
 
 ### List of containers
 
-* **PHP-7**: ```docker build -f ./php/Dockerfile -t audithsoftworks/docker:php .;```
-* **PHP-7 FPM**: ```docker build -f ./php-fpm/Dockerfile -t audithsoftworks/docker:php-fpm .;```
+* **PHP-7 with FPM**: ```docker build -f ./php/Dockerfile -t audithsoftworks/docker:php .;```
