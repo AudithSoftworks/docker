@@ -191,4 +191,4 @@ COPY ./bash_profile /home/audith/.profile
 
 # Add Web-font related tools to PATH
 USER audith
-ENV PATH $PATH:/var/www/storage/build/tools/sfnt2woff:/var/www/storage/build/tools/woff2
+ENV PATH $PATH:/var/www/storage/build/tools/sfnt2woff:/var/www/storage/build/tools/woff2:/var/www/storage/build/tools/css3_font_converter
