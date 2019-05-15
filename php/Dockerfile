@@ -169,7 +169,7 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
     && rm -rf /tmp/npm-*
 
 # Install Node global dependencies
-RUN npm install -g ttf2eot jshint webpack webpack-cli
+RUN npm install -g ttf2eot jshint webpack webpack-cli prettier
 
 # Port for node --inspect
 EXPOSE 9229
