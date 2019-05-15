@@ -174,6 +174,17 @@ RUN npm install -g ttf2eot jshint webpack webpack-cli
 # Port for node --inspect
 EXPOSE 9229
 
+# Install fonting tools
+RUN apt-get update -y && apt-get install woff-tools \
+    && git clone --depth=1 https://github.com/google/woff2.git /opt/woff2 \
+    && cd /opt/woff2 \
+    && git submodule init \
+    && git submodule update \
+    && make clean all \
+    && chmod +x /opt/woff2/woff2_* \
+    && git clone --depth=1 https://github.com/zoltan-dulac/css3FontConverter.git /opt/css3_font_converter \
+    && chmod +x /opt/css3_font_converter/convertFonts.sh;
+
 # Clean-up
 RUN apt-get clean \
     && apt-get remove -y gnupg \
@@ -189,6 +200,7 @@ RUN sed -i -e "s/%sudo.*/%sudo ALL=(ALL:ALL) NOPASSWD: ALL/g" /etc/sudoers
 
 COPY ./bash_profile /home/audith/.profile
 
-# Add Web-font related tools to PATH
 USER audith
-ENV PATH $PATH:/var/www/storage/build/tools/sfnt2woff:/var/www/storage/build/tools/woff2:/var/www/storage/build/tools/css3_font_converter
+
+# Update PATH
+ENV PATH $PATH:/opt/woff2:/opt/css3_font_converter
