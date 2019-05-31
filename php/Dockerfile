@@ -198,7 +198,8 @@ RUN groupadd -g $PGID audith && useradd -u $PUID -g audith -M audith
 RUN usermod -aG sudo audith
 RUN sed -i -e "s/%sudo.*/%sudo ALL=(ALL:ALL) NOPASSWD: ALL/g" /etc/sudoers
 
-COPY ./bash_profile /home/audith/.profile
+COPY ./profile /etc/profile
+COPY ./profile /etc/bashrc
 
 USER audith
 
