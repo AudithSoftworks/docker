@@ -33,7 +33,7 @@ RUN apt-get update -y \
         locales-all \
         mariadb-client \
         nano \
-        openjdk-8-jre \
+        openjdk-11-jre \
         rsyslog \
         sudo \
         telnet \
