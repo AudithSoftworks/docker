@@ -156,7 +156,7 @@ RUN set -ex \
     done
 
 ENV NPM_CONFIG_LOGLEVEL info
-ENV NODE_VERSION 10.15.3
+ENV NODE_VERSION 10.16.3
 ENV NPM_VERSION 6
 RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
     && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
@@ -169,7 +169,7 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
     && rm -rf /tmp/npm-*
 
 # Install Node global dependencies
-RUN npm install -g ttf2eot jshint webpack webpack-cli prettier
+RUN npm install -g ttf2eot jshint webpack webpack-cli prettier mocha
 
 # Port for node --inspect
 EXPOSE 9229
