@@ -31,7 +31,7 @@ RUN apt-get update -y \
         libzip-dev \
         locales \
         locales-all \
-        mysql-client \
+        mariadb-client \
         nano \
         openjdk-8-jre \
         rsyslog \
