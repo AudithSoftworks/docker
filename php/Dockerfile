@@ -31,9 +31,9 @@ RUN apt-get update -y \
         libzip-dev \
         locales \
         locales-all \
-        mysql-client \
+        mariadb-client \
         nano \
-        openjdk-8-jre \
+        openjdk-11-jre \
         rsyslog \
         sudo \
         telnet \
@@ -171,7 +171,7 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
     && rm -rf /tmp/npm-*
 
 # Install Node global dependencies
-RUN npm install -g ttf2eot jshint webpack webpack-cli prettier
+RUN npm install -g ttf2eot jshint webpack webpack-cli prettier mocha
 
 # Port for node --inspect
 EXPOSE 9229
