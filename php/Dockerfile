@@ -131,6 +131,8 @@ RUN git clone https://github.com/phpredis/phpredis.git /tmp/phpredis \
     && make install \
     && echo "extension=redis.so" | tee /usr/local/etc/php/conf.d/redis.ini
 
+RUN composer global require hirak/prestissimo
+
 # Some checks
 RUN service rsyslog start && service cron start && service --status-all
 RUN php -m
@@ -156,7 +158,7 @@ RUN set -ex \
     done
 
 ENV NPM_CONFIG_LOGLEVEL info
-ENV NODE_VERSION 10.15.3
+ENV NODE_VERSION 10.16.3
 ENV NPM_VERSION 6
 RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
     && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
