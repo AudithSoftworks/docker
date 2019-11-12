@@ -16,24 +16,14 @@ RUN apt-get update -y \
         fontforge \
         git \
         gnupg \
-        libfreetype6-dev \
-        libicu-dev \
-        libjpeg-dev \
-        libjpeg62-turbo-dev \
-        libmcrypt-dev \
-        libmemcached-dev \
-        libpng-dev \
-        libpq-dev \
-        libsqlite3-dev \
-        libssl-dev \
-        libxml2-dev \
-        libxslt1-dev \
-        libzip-dev \
+#        libsqlite3-dev \
+#        libssl-dev \
         locales \
         locales-all \
         mariadb-client \
         nano \
         openjdk-11-jre \
+        procps \
         rsyslog \
         sudo \
         telnet \
@@ -41,7 +31,7 @@ RUN apt-get update -y \
         wget
 
 # Locale
-RUN locale-gen en_US.UTF-8 && locale-gen az_AZ.UTF-8 && locale-gen tr_TR.UTF-8 && locale-gen de_DE.UTF-8 && dpkg-reconfigure locales
+RUN locale-gen en_US.UTF-8 && locale-gen de_DE.UTF-8 && dpkg-reconfigure locales
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
@@ -52,19 +42,26 @@ RUN docker-php-ext-install \
         calendar \
         exif \
         gettext \
-        intl \
         pdo_mysql \
-        pdo_pgsql \
-        soap \
-        sockets \
-        xsl \
-        zip
+        sockets
 
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+RUN apt-get install -y libfreetype6-dev libjpeg-dev libjpeg62-turbo-dev libpng-dev \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include \
     && docker-php-ext-install gd
 
-RUN pecl install -of mcrypt memcached \
+RUN apt-get install -y libicu-dev && docker-php-ext-install intl
+
+RUN apt-get install -y libmcrypt-dev libmemcached-dev \
+    && pecl install -of mcrypt memcached \
     && docker-php-ext-enable mcrypt memcached
+
+RUN apt-get install -y libpq-dev && docker-php-ext-install pdo_pgsql
+
+RUN apt-get install -y libxml2-dev && docker-php-ext-install soap
+
+RUN apt-get install -y libxslt1-dev && docker-php-ext-install xsl
+
+RUN apt-get install -y libzip-dev && docker-php-ext-install zip
 
 # Install Google's depot-tools
 #RUN apt-get install -y python libglib2.0-dev
@@ -97,9 +94,6 @@ RUN pecl install -of mcrypt memcached \
 #    && make install \
 #    && docker-php-ext-enable v8js
 
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
-
 # Install PECL php-mongodb
 RUN pecl install -of mongodb \
     && rm -rf /tmp/pear \
@@ -124,13 +118,15 @@ RUN echo "date.timezone = UTC" | tee /usr/local/etc/php/conf.d/date.ini
 # Install php-redis extension through Git
 RUN git clone https://github.com/phpredis/phpredis.git /tmp/phpredis \
     && cd /tmp/phpredis \
-    && git checkout 4.3.0 \
+    && git checkout 5.1.1 \
     && phpize \
     && ./configure \
     && make \
     && make install \
     && echo "extension=redis.so" | tee /usr/local/etc/php/conf.d/redis.ini
 
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 RUN composer global require hirak/prestissimo
 
 # Some checks
@@ -186,6 +182,17 @@ RUN apt-get update -y && apt-get install woff-tools \
     && chmod +x /opt/woff2/woff2_* \
     && git clone --depth=1 https://github.com/zoltan-dulac/css3FontConverter.git /opt/css3_font_converter \
     && chmod +x /opt/css3_font_converter/convertFonts.sh;
+
+# Install Cypress dependencies
+RUN apt-get update -y \
+    && apt-get install -y \
+        libasound2 \
+        libgconf-2-4 \
+        libgtk-3-dev \
+        libnotify-dev \
+        libnss3 \
+        libxss1 \
+        xvfb
 
 # Clean-up
 RUN apt-get clean \
