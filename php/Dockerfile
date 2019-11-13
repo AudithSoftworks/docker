@@ -16,6 +16,7 @@ RUN apt-get update -y \
         fontforge \
         git \
         gnupg \
+        iputils-ping \
 #        libsqlite3-dev \
 #        libssl-dev \
         locales \
