@@ -197,9 +197,8 @@ RUN apt-get update -y \
         xvfb
 
 # Install Chrome browser
-RUN \
-  wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
-  echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+  echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
 RUN apt-get update
 # disabled dbus install - could not get it to install
 # but tested an example project, and Chrome seems to run fine
