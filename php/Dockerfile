@@ -129,7 +129,6 @@ RUN git clone https://github.com/phpredis/phpredis.git /tmp/phpredis \
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
-RUN composer global require hirak/prestissimo
 
 # Some checks
 RUN service rsyslog start && service cron start && service --status-all
@@ -226,7 +225,7 @@ RUN apt-get clean \
 # Add a non-root user to prevent files being created with root permissions on host machine.
 ARG PUID=1000
 ARG PGID=1000
-RUN groupadd -g $PGID audith && useradd -u $PUID -g audith -M audith
+RUN groupadd -g $PGID audith && useradd -u $PUID -g audith -m audith
 RUN usermod -aG sudo audith
 RUN sed -i -e "s/%sudo.*/%sudo ALL=(ALL:ALL) NOPASSWD: ALL/g" /etc/sudoers
 
@@ -237,3 +236,6 @@ USER audith
 
 # Update PATH
 ENV PATH $PATH:/opt/woff2:/opt/css3_font_converter
+
+# Install hirak/prestissimo package as restricted user
+RUN composer global require hirak/prestissimo
