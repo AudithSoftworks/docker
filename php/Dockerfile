@@ -120,7 +120,7 @@ RUN echo "date.timezone = UTC" | tee /usr/local/etc/php/conf.d/date.ini
 # Install php-redis extension through Git
 RUN git clone https://github.com/phpredis/phpredis.git /tmp/phpredis \
     && cd /tmp/phpredis \
-    && git checkout 5.2.1 \
+    && git checkout 5.2.2 \
     && phpize \
     && ./configure \
     && make \
@@ -155,7 +155,7 @@ RUN set -ex \
     done
 
 ENV NPM_CONFIG_LOGLEVEL warn
-ENV NODE_VERSION 12.16.1
+ENV NODE_VERSION 12.17.0
 ENV NPM_VERSION 6
 RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
     && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
@@ -210,7 +210,7 @@ RUN rm -rf /var/lib/apt/lists/*
 ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
 
 # Install Firefox browser
-ARG FIREFOX_VERSION=73.0.1
+ARG FIREFOX_VERSION=76.0.1
 RUN wget --no-verbose -O /tmp/firefox.tar.bz2 https://download-installer.cdn.mozilla.net/pub/firefox/releases/$FIREFOX_VERSION/linux-x86_64/en-US/firefox-$FIREFOX_VERSION.tar.bz2 \
   && tar -C /opt -xjf /tmp/firefox.tar.bz2 \
   && rm /tmp/firefox.tar.bz2 \
