@@ -1,4 +1,4 @@
-FROM php:7.3-fpm
+FROM php:7.4-fpm
 LABEL maintainer="Shahriyar Imanov <shehi@imanov.me>"
 
 WORKDIR /var/www
@@ -48,7 +48,7 @@ RUN docker-php-ext-install \
         sockets
 
 RUN apt-get install -y libfreetype6-dev libjpeg-dev libjpeg62-turbo-dev libpng-dev \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include \
+    && docker-php-ext-configure gd \
     && docker-php-ext-install gd
 
 RUN apt-get install -y libicu-dev && docker-php-ext-install intl
