@@ -217,6 +217,12 @@ RUN wget --no-verbose -O /tmp/firefox.tar.bz2 https://download-installer.cdn.moz
   && rm /tmp/firefox.tar.bz2 \
   && ln -fs /opt/firefox/firefox /usr/bin/firefox
 
+# Install dockerize
+ENV DOCKERIZE_VERSION v0.6.1
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
 # Clean-up
 RUN apt-get clean \
     && apt-get remove -y gnupg \
