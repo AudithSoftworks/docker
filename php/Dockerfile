@@ -30,7 +30,6 @@ RUN apt-get update -y \
         sudo \
         telnet \
         unzip \
-        wait-for-it \
         wget
 
 # Locale
