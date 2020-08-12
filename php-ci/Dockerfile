@@ -119,9 +119,6 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
 # Install Node global dependencies
 RUN npm install -g ttf2eot jshint webpack webpack-cli prettier mocha
 
-# Port for node --inspect
-EXPOSE 9229
-
 # Install fonting tools
 RUN apt-get update -y && apt-get install woff-tools \
     && git clone --depth=1 https://github.com/google/woff2.git /opt/woff2 \
@@ -132,38 +129,6 @@ RUN apt-get update -y && apt-get install woff-tools \
     && chmod +x /opt/woff2/woff2_* \
     && git clone --depth=1 https://github.com/zoltan-dulac/css3FontConverter.git /opt/css3_font_converter \
     && chmod +x /opt/css3_font_converter/convertFonts.sh;
-
-# Install Cypress dependencies
-RUN apt-get update -y \
-    && apt-get install -y \
-        libasound2 \
-        libgconf-2-4 \
-        libgtk-3-dev \
-        libnotify-dev \
-        libnss3 \
-        libxss1 \
-        xvfb
-
-# Install Chrome browser
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
-  echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
-RUN apt-get update
-# disabled dbus install - could not get it to install
-# but tested an example project, and Chrome seems to run fine
-# RUN apt-get install -y dbus-x11
-RUN apt-get install -y google-chrome-stable
-RUN rm -rf /var/lib/apt/lists/*
-
-# "Fake" dbus address to prevent errors
-# https://github.com/SeleniumHQ/docker-selenium/issues/87
-ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
-
-# Install Firefox browser
-ARG FIREFOX_VERSION=78.0.2
-RUN wget --no-verbose -O /tmp/firefox.tar.bz2 https://download-installer.cdn.mozilla.net/pub/firefox/releases/$FIREFOX_VERSION/linux-x86_64/en-US/firefox-$FIREFOX_VERSION.tar.bz2 \
-  && tar -C /opt -xjf /tmp/firefox.tar.bz2 \
-  && rm /tmp/firefox.tar.bz2 \
-  && ln -fs /opt/firefox/firefox /usr/bin/firefox
 
 # Install dockerize
 ENV DOCKERIZE_VERSION v0.6.1
