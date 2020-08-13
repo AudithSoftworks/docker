@@ -7,4 +7,6 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-ENTRYPOINT ["dockerize", "-wait", "file:///var/www/.ready_for_frontend_testing", "-timeout", "120s", "cypress", "run"]
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD [ "node" ]
