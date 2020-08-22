@@ -190,6 +190,13 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
+# Install Sqreen assets
+RUN apt-get install -y debian-archive-keyring \
+    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7B5248ECE3E59766 \
+    && UNIQUE_ID=`hostname -f` curl 'https://8dc0b36f0ea6f2f21b721765e10a7e02768cd1825b4551f4:@packagecloud.io/install/repositories/sqreen/sqreen/config_file.list?os=debian&dist=buster&name=${UNIQUE_ID}' > /etc/apt/sources.list.d/sqreen.list \
+    && apt-get update -y \
+    && apt-get install -y sqreen-agent sqreen-php-extension
+
 # Clean-up
 RUN apt-get clean \
     && apt-get remove -y gnupg \
