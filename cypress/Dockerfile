@@ -1,4 +1,4 @@
-FROM cypress/included:4.12.1
+FROM cypress/included:5.2.0
 LABEL maintainer="Shahriyar Imanov <shehi@imanov.me>"
 
 # Install dockerize
