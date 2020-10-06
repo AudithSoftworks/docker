@@ -18,8 +18,6 @@ RUN apt-get update -y \
         git \
         gnupg \
         iputils-ping \
-#        libsqlite3-dev \
-#        libssl-dev \
         locales \
         locales-all \
         mariadb-client \
@@ -155,7 +153,7 @@ RUN set -ex \
     done
 
 ENV NPM_CONFIG_LOGLEVEL warn
-ENV NODE_VERSION 12.18.4
+ENV NODE_VERSION 12.19.0
 ENV NPM_VERSION 6
 RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
     && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
