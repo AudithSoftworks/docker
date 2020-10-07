@@ -166,7 +166,7 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
     && rm -rf /tmp/npm-*
 
 # Install Node global dependencies
-RUN npm install -g ttf2eot jshint webpack webpack-cli prettier mocha
+RUN npm install -g ttf2eot jshint webpack webpack-cli mocha
 
 # Port for node --inspect
 EXPOSE 9229
