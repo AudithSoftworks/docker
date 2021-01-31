@@ -215,6 +215,3 @@ USER audith
 
 # Update PATH
 ENV PATH $PATH:/opt/woff2:/opt/css3_font_converter
-
-# Install hirak/prestissimo package as restricted user
-RUN composer global require hirak/prestissimo
